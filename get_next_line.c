@@ -6,7 +6,7 @@
 /*   By: liemi <liemi@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 19:43:53 by liemi             #+#    #+#             */
-/*   Updated: 2025/07/16 22:51:46 by liemi            ###   ########.fr       */
+/*   Updated: 2025/08/04 15:58:51 by liemi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,65 +48,3 @@ char	*get_next_line(int fd)
 // stash 是保存还没读完的残留数据，每次调用保持不变
 // buffer 是每次 read 读入的新数据
 // temp 是临时指针，用于释放旧的 stash
-
-char	*extract_line(char *stash)
-{
-	char 	*line;
-	size_t	i;
-
-	if (!stash || stash[0] == '\0')
-		return (NULL);
-	i = 0;
-	while (stash[i] && stash[i] != '\n')
-		i++;
-	if (stash[i] == '\n')
-		i++;
-	line = (char *)malloc(i + 1);
-	if (!line)
-		return (NULL);
-	i = 0;
-	while (stash[i] && stash[i] != '\n')
-	{
-		line[i] = stash[i];
-		i++;
-	}
-	if (stash[i] == '\n')
-	{
-		line[i] = '\n';
-		i++;
-	}
-	line[i] = '\0';
-	return (line);
-}
-
-char	*update_stash(char *stash)
-{
-	char	*new_stash;
-	size_t	i;
-	size_t	j;
-
-	if (!stash)
-		return (NULL);
-	i = 0;
-	while (stash[i] && stash[i] != '\n')
-		i++;
-	if (stash[i] == '\0')
-	{
-		free(stash);
-		return (NULL);
-	}
-	i++;
-	new_stash = (char *)malloc(ft_strlen(stash) - i + 1);
-	if (!new_stash)
-		return (NULL);
-	j = 0;
-	while (stash[i])
-	{
-		new_stash[j] = stash[i];
-		i++;
-		j++;
-	}
-	new_stash[j] = '\0';
-	free(stash);
-	return (new_stash);
-}
